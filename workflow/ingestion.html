@@ -9,17 +9,17 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
     <script src="../_static/documentation_options.js?v=01f34227"></script>
-    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Matching" href="matching.html" />
+    <link rel="next" title="Transcription QC" href="transcription-qc.html" />
     <link rel="prev" title="Workflow overview" href="overview.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="matching.html" title="Matching"
+          <a href="transcription-qc.html" title="Transcription QC"
              accesskey="N">next</a></li>
         <li class="right" >
           <a href="overview.html" title="Workflow overview"
@@ -42,8 +42,8 @@ loaded into a fast, columnar backend. This stage does that, converting both into
 queries with <a class="reference external" href="https://duckdb.org/">DuckDB</a>.</p>
 <p>Two notebooks:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/Philip-Brohan-MO/Auto-Daily-Rainfall-QC-MO/blob/main/notebooks/RR_data_ingest.ipynb">RR_data_ingest.ipynb</a></p></li>
-<li><p><a class="reference external" href="https://github.com/Philip-Brohan-MO/Auto-Daily-Rainfall-QC-MO/blob/main/notebooks/Daily_transcriptions_ingest.ipynb">Daily_transcriptions_ingest.ipynb</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/RR_data_ingest.ipynb">RR_data_ingest.ipynb</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/Daily_transcriptions_ingest.ipynb">Daily_transcriptions_ingest.ipynb</a></p></li>
 </ul>
 <section id="the-two-data-sources">
 <h2>The two data sources<a class="headerlink" href="#the-two-data-sources" title="Link to this heading">¶</a></h2>
@@ -54,7 +54,7 @@ totals from <a class="reference external" href="https://github.com/ed-hawkins/ra
 Crucially, these records already carry <strong>station names, coordinates, and other
 metadata</strong>. They are the anchor we use to locate the daily transcriptions.</p></li>
 <li><p><strong>Daily ensemble transcriptions</strong> — the output of the parent
-<a class="reference external" href="https://github.com/Philip-Brohan-MO/Auto-Daily-Rainfall-MO">Auto Daily Rainfall</a>
+<a class="reference external" href="https://brohan.org/Auto-Daily-Rainfall/">Auto Daily Rainfall</a>
 project: one JSON file per station-year image, holding keys <code class="docutils literal notranslate"><span class="pre">Day</span> <span class="pre">1</span></code> … <code class="docutils literal notranslate"><span class="pre">Day</span> <span class="pre">31</span></code>
 plus a <code class="docutils literal notranslate"><span class="pre">Totals</span></code> block, with <strong>five ensemble-member values</strong> for every day and
 month slot.</p></li>
@@ -62,7 +62,7 @@ month slot.</p></li>
 </section>
 <section id="rainfall-rescue-monthly-data">
 <h2>Rainfall Rescue monthly data<a class="headerlink" href="#rainfall-rescue-monthly-data" title="Link to this heading">¶</a></h2>
-<p>The <a class="reference external" href="https://github.com/Philip-Brohan-MO/Auto-Daily-Rainfall-QC-MO/blob/main/notebooks/RR_data_ingest.ipynb">RR_data_ingest</a>
+<p>The <a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/RR_data_ingest.ipynb">RR_data_ingest</a>
 notebook clones the Rainfall Rescue data from GitHub and ingests the combined
 station CSV files into a Parquet dataset for fast DuckDB processing. It then
 draws an interactive map of every station’s location for a chosen year and month,
@@ -72,7 +72,7 @@ needed.</p>
 </section>
 <section id="daily-ensemble-transcriptions">
 <h2>Daily ensemble transcriptions<a class="headerlink" href="#daily-ensemble-transcriptions" title="Link to this heading">¶</a></h2>
-<p>The <a class="reference external" href="https://github.com/Philip-Brohan-MO/Auto-Daily-Rainfall-QC-MO/blob/main/notebooks/Daily_transcriptions_ingest.ipynb">Daily_transcriptions_ingest</a>
+<p>The <a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/Daily_transcriptions_ingest.ipynb">Daily_transcriptions_ingest</a>
 notebook rebuilds the ensemble Parquet dataset from the JSON transcription files.
 The in-process rebuild shown first is fine for smoke tests, but the full dataset
 is far too large for one Python process.</p>
@@ -111,7 +111,7 @@ tree to ingest:</p>
 every shard has succeeded. Shard count, an optional file cap for testing, and the
 per-job resources are all set in <code class="docutils literal notranslate"><span class="pre">scripts/slurm/config.sh</span></code>. See the
 <a class="reference internal" href="../reference/slurm.html"><span class="std std-doc">SLURM reference</span></a> for how to monitor jobs.</p>
-<p>Next: <a class="reference internal" href="matching.html"><span class="std std-doc">Matching</span></a>.</p>
+<p>Next: <a class="reference internal" href="transcription-qc.html"><span class="std std-doc">Transcription QC</span></a>.</p>
 </section>
 </section>
 
@@ -134,6 +134,7 @@ per-job resources are all set in <code class="docutils literal notranslate"><spa
 <p class="caption" role="heading"><span class="caption-text">The workflow</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transcription-qc.html">Transcription QC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="matching.html">Matching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quality-control.html">Quality control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="export.html">Export</a></li>
@@ -144,9 +145,14 @@ per-job resources are all set in <code class="docutils literal notranslate"><spa
 <li class="toctree-l1"><a class="reference internal" href="../reference/slurm.html">SLURM and HPC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/scripts.html">Scripts and SLURM jobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/notebooks.html">Notebook catalog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reproduce.html">How to reproduce and extend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Authors and acknowledgements</a></li>
 </ul>
-
+<h3>Source code</h3>
+<ul>
+  <li><a href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC">GitHub repository</a></li>
+</ul>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -162,7 +168,7 @@ per-job resources are all set in <code class="docutils literal notranslate"><spa
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="matching.html" title="Matching"
+          <a href="transcription-qc.html" title="Transcription QC"
              >next</a></li>
         <li class="right" >
           <a href="overview.html" title="Workflow overview"

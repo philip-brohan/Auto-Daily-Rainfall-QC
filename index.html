@@ -9,8 +9,8 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css?v=34905f61" />
     <script src="_static/documentation_options.js?v=01f34227"></script>
-    <script src="_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Installation" href="installation.html" /> 
   </head><body>
@@ -32,18 +32,13 @@
             
   <section id="auto-daily-rainfall-qc">
 <h1>Auto Daily Rainfall QC<a class="headerlink" href="#auto-daily-rainfall-qc" title="Link to this heading">¶</a></h1>
-<p><strong>Locating, quality-controlling, and sharing hundreds of thousands of
-machine-transcribed daily rainfall observations rescued from historical
-documents.</strong></p>
-<hr class="docutils" />
-<p>This is the quality-control follow-on to
-<a class="reference external" href="https://github.com/Philip-Brohan-MO/Auto-Daily-Rainfall-MO">Auto Daily Rainfall</a>,
-which used an ensemble of small
-<a class="reference external" href="https://huggingface.co/blog/vlms">vision-language models (VLMs)</a> to read about
-<strong>660,000</strong> scanned daily rainfall registers into structured JSON — five
-independent transcriptions of every station-year image.</p>
-<p>Raw transcriptions are not yet usable science. Before the recovered numbers can
-be trusted or shared they need three things, and that is what this project does:</p>
+<p>This is the third of a set of three projects demonstrating a 100% AI method to do large-scale <a class="reference external" href="https://climate.copernicus.eu/sites/default/files/2020-02/BestPracticeGuidelines_ClimateDataRescue_0.pdf">Climate Data Rescue</a>:</p>
+<ul class="simple">
+<li><p><strong><a class="reference external" href="https://brohan.org/Robot_Rainfall_Rescue/">Robot Rainfall Rescue</a></strong> demonstrated the basic approach: How to fine-tune an ensemble of small Vision Language Models to convert a large collection of photographs of historical documents containing numerical weather records into computer-readable form.</p></li>
+<li><p><strong><a class="reference external" href="https://brohan.org/Auto-Daily-Rainfall/">Auto Daily Rainfall</a></strong> applied the approach to the 660,000 pages of the UK Daily Rainfall Reports (England and Wales). It demonstrated fine-tuning without any training data, and produced a full ensemble transcription.</p></li>
+<li><p><strong>This Project</strong> takes the raw transcriptions, applies metadata (locations and dates), does basic QC and deduplication, and outputs <a class="reference external" href="https://doi.org/10.5281/zenodo.21905160">73 million daily rainfall observations</a> as ready-to-use <a class="reference external" href="https://datarescue.climate.copernicus.eu/station-exchange-format-sef">Station Exchange Format (SEF)</a> files.</p></li>
+</ul>
+<p>The preceding project, <a class="reference external" href="https://brohan.org/Auto-Daily-Rainfall/">Auto Daily Rainfall</a>, outputs <a class="reference external" href="https://doi.org/10.5281/zenodo.22078935">an ensemble of five transcriptions of each page in the UK Daily Rainfall Reports (England and Wales)</a>. These transcriptions are the inputs to this project, but the raw transcriptions are not yet usable science. Before the recovered numbers can be used they need three more steps of processing:</p>
 <ol class="arabic simple">
 <li><p><strong>Location.</strong> A transcription on its own is just a grid of numbers. We match
 each one to the already-digitised
@@ -57,13 +52,14 @@ recorded on the same day — and attach a quality verdict to every observation.<
 <a class="reference external" href="https://datarescue.climate.copernicus.eu/station-exchange-format-sef">Station Exchange Format (SEF)</a>,
 the community standard for rescued climate observations.</p></li>
 </ol>
+<p>This project performs these steps, and outputs <a class="reference external" href="https://doi.org/10.5281/zenodo.21905160">73 million daily rainfall observations in ready-to-use format</a>. (<a class="reference external" href="https://vimeo.com/1223307103">Watch the Video</a>)</p>
 <section id="the-approach">
 <h2>The approach<a class="headerlink" href="#the-approach" title="Link to this heading">¶</a></h2>
-<p>As with the parent project, the whole thing is <strong>driven by a series of
+<p>As with the preceding project, the whole thing is <strong>driven by a series of
 notebooks</strong> that you can open, read, and run. Each notebook documents one stage
 of the pipeline: it explains what the stage does, runs a small demonstration
 locally, and submits the full-scale work to the
-<a class="reference internal" href="reference/slurm.html"><span class="std std-doc">SPICE HPC cluster</span></a> via SLURM.</p>
+<a class="reference internal" href="reference/slurm.html"><span class="std std-doc">SPICE HPC cluster</span></a> via SLURM. Five transcriptions of each of 365 days data, from each of 660,000 page records, means we have more than 1 billion observation records to work on. So we can’t just load the whole dataset into a laptop, some engineering effort is required to do the work efficiently and here we have parallelised as much as possible using the Met Office SPICE cluster. (It is possible to run the whole process on a single powerful system - see the local-parallel branch in the repository for an example).</p>
 <p>Two ideas run through the workflow:</p>
 <ul class="simple">
 <li><p><strong>Consensus from the ensemble.</strong> Every station-year was transcribed five
@@ -91,32 +87,50 @@ together; the pages under it walk through each stage.</p>
 <td><p>2</p></td>
 <td><p>Load the Rainfall Rescue monthly data and the daily ensemble transcriptions into a Parquet/DuckDB backend</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="workflow/matching.html"><span class="std std-doc">Matching</span></a></p></td>
-<td><p>1</p></td>
-<td><p>Match each daily transcription to a Rainfall Rescue station-year and borrow its location metadata</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="workflow/transcription-qc.html"><span class="std std-doc">Transcription QC</span></a></p></td>
+<td><p>0</p></td>
+<td><p>Check and summarise transcription structure/quality before similarity matching</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="workflow/quality-control.html"><span class="std std-doc">Quality control</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="workflow/matching.html"><span class="std std-doc">Matching</span></a></p></td>
+<td><p>2 primary (+2 appendix)</p></td>
+<td><p>Match transcriptions to Rainfall Rescue station-years, then run residual ALLSHEETS matching</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="workflow/quality-control.html"><span class="std std-doc">Quality control</span></a></p></td>
 <td><p>3</p></td>
 <td><p>Check daily values against monthly totals (QC1) and against regional neighbours (QC2)</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="workflow/export.html"><span class="std std-doc">Export</span></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="workflow/export.html"><span class="std std-doc">Export</span></a></p></td>
 <td><p>1</p></td>
-<td><p>Merge duplicates and write one SEF <code class="docutils literal notranslate"><span class="pre">.tsv</span></code> per real station-year, in millimetres, with QC verdicts</p></td>
+<td><p>Merge duplicates and write one SEF <code class="docutils literal notranslate"><span class="pre">.tsv</span></code> per real station-year, in millimeters, with QC verdicts</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="workflow/analysis.html"><span class="std std-doc">Analysis</span></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="workflow/analysis.html"><span class="std std-doc">Analysis</span></a></p></td>
 <td><p>3</p></td>
 <td><p>Summarise the shared dataset and animate the daily rainfall field</p></td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="get-started">
-<h2>Get started<a class="headerlink" href="#get-started" title="Link to this heading">¶</a></h2>
+<section id="do-it-yourself">
+<h2>Do-It-Yourself<a class="headerlink" href="#do-it-yourself" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="installation.html"><span class="std std-doc">Installation</span></a> — set up the <code class="docutils literal notranslate"><span class="pre">ADRQ</span></code> environment.</p></li>
 <li><p><a class="reference internal" href="workflow/overview.html"><span class="std std-doc">Workflow overview</span></a> — the staged, notebook-driven pipeline.</p></li>
-<li><p><a class="reference internal" href="reproduce.html"><span class="std std-doc">How to reproduce and extend</span></a> — code, compute, and credits.</p></li>
+<li><p><a class="reference internal" href="reproduce.html"><span class="std std-doc">How to reproduce and extend</span></a> — code &amp; compute.</p></li>
 </ul>
+</section>
+<section id="results">
+<h2>Results<a class="headerlink" href="#results" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://doi.org/10.5281/zenodo.21905160">73 million England and Wales daily-rainfall observations, ready for use.</a></p></li>
+<li><p><a class="reference external" href="https://vimeo.com/1223307103">Video of England and Wales rainfall, 1871-1960.</a></p></li>
+</ul>
+</section>
+<section id="credits">
+<h2>Credits<a class="headerlink" href="#credits" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="credits.html"><span class="std std-doc">Authors and acknowledgements</span></a></p></li>
+</ul>
+<p>This document is distributed under the terms of the <a class="reference external" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/2/">Open Government Licence</a>. Source code included is distributed under the terms of the <a class="reference external" href="https://opensource.org/licenses/BSD-2-Clause">BSD license</a>.</p>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
@@ -145,6 +159,7 @@ together; the pages under it walk through each stage.</p>
 <p class="caption" role="heading"><span class="caption-text">The workflow</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="workflow/ingestion.html">Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow/transcription-qc.html">Transcription QC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow/matching.html">Matching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow/quality-control.html">Quality control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow/export.html">Export</a></li>
@@ -155,9 +170,14 @@ together; the pages under it walk through each stage.</p>
 <li class="toctree-l1"><a class="reference internal" href="reference/slurm.html">SLURM and HPC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference/architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference/scripts.html">Scripts and SLURM jobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/notebooks.html">Notebook catalog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reproduce.html">How to reproduce and extend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Authors and acknowledgements</a></li>
 </ul>
-
+<h3>Source code</h3>
+<ul>
+  <li><a href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC">GitHub repository</a></li>
+</ul>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">

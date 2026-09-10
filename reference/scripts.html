@@ -9,17 +9,17 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
     <script src="../_static/documentation_options.js?v=01f34227"></script>
-    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="How to reproduce and extend" href="../reproduce.html" />
+    <link rel="next" title="Notebook catalog" href="notebooks.html" />
     <link rel="prev" title="Architecture" href="architecture.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../reproduce.html" title="How to reproduce and extend"
+          <a href="notebooks.html" title="Notebook catalog"
              accesskey="N">next</a></li>
         <li class="right" >
           <a href="architecture.html" title="Architecture"
@@ -65,9 +65,17 @@ these for its shard.</p>
 <td><p>Ingestion</p></td>
 <td><p>Sharded ensemble ingest and merge</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">build_similarity_vectors.py</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">run_transcription_qc_shard.py</span></code> / <code class="docutils literal notranslate"><span class="pre">merge_transcription_qc_shards.py</span></code></p></td>
+<td><p>Transcription QC</p></td>
+<td><p>Sharded transcription-quality checks and merge</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">build_similarity_vectors.py</span></code></p></td>
 <td><p>Matching</p></td>
 <td><p>Build the normalised comparison vectors</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">build_allsheets_similarity_vectors.py</span></code></p></td>
+<td><p>Matching</p></td>
+<td><p>Build comparison vectors for RR ALLSHEETS residual matching</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">run_similarity_shard.py</span></code> / <code class="docutils literal notranslate"><span class="pre">merge_similarity_shards.py</span></code></p></td>
 <td><p>Matching</p></td>
@@ -81,35 +89,39 @@ these for its shard.</p>
 <td><p>Matching</p></td>
 <td><p>Copy RR metadata onto matched records</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">run_qc_check_exact_monthly.py</span></code> / <code class="docutils literal notranslate"><span class="pre">run_qc_shard.py</span></code> / <code class="docutils literal notranslate"><span class="pre">merge_qc_shards.py</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">finalize_allsheets_metadata.py</span></code></p></td>
+<td><p>Matching</p></td>
+<td><p>Finalize metadata after residual ALLSHEETS matching</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">run_qc_check_exact_monthly.py</span></code> / <code class="docutils literal notranslate"><span class="pre">run_qc_shard.py</span></code> / <code class="docutils literal notranslate"><span class="pre">merge_qc_shards.py</span></code></p></td>
 <td><p>QC1</p></td>
 <td><p>Monthly-total check, sharded, and merge</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">run_daily_consensus_shard.py</span></code> / <code class="docutils literal notranslate"><span class="pre">merge_daily_consensus_shards.py</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">run_daily_consensus_shard.py</span></code> / <code class="docutils literal notranslate"><span class="pre">merge_daily_consensus_shards.py</span></code></p></td>
 <td><p>QC2</p></td>
 <td><p>Build the daily-consensus table</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">run_regional_stats_shard.py</span></code> / <code class="docutils literal notranslate"><span class="pre">merge_regional_stats_shards.py</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">run_regional_stats_shard.py</span></code> / <code class="docutils literal notranslate"><span class="pre">merge_regional_stats_shards.py</span></code></p></td>
 <td><p>QC2</p></td>
 <td><p>Regional neighbour statistics</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">train_secondary_qc_models.py</span></code> / <code class="docutils literal notranslate"><span class="pre">score_secondary_qc.py</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">train_secondary_qc_models.py</span></code> / <code class="docutils literal notranslate"><span class="pre">score_secondary_qc.py</span></code></p></td>
 <td><p>QC2</p></td>
 <td><p>Train and score the secondary ML check</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">export_sef.py</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">export_sef.py</span></code></p></td>
 <td><p>Export</p></td>
 <td><p>Merge duplicates → SEF <code class="docutils literal notranslate"><span class="pre">.tsv</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">build_sef_analysis_parquet.py</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">build_sef_analysis_parquet.py</span></code></p></td>
 <td><p>Analysis</p></td>
 <td><p>Parse SEF → analysis Parquet</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">render_animation_manifest.py</span></code> / <code class="docutils literal notranslate"><span class="pre">render_animation_shard.py</span></code> / <code class="docutils literal notranslate"><span class="pre">render_animation_validate.py</span></code> / <code class="docutils literal notranslate"><span class="pre">render_animation_encode.py</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">render_animation_manifest.py</span></code> / <code class="docutils literal notranslate"><span class="pre">render_animation_shard.py</span></code> / <code class="docutils literal notranslate"><span class="pre">render_animation_validate.py</span></code> / <code class="docutils literal notranslate"><span class="pre">render_animation_encode.py</span></code></p></td>
 <td><p>Analysis</p></td>
 <td><p>Consensus-rainfall animation stages</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">render_sef_animation_manifest.py</span></code> / <code class="docutils literal notranslate"><span class="pre">render_sef_animation_shard.py</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">render_sef_animation_manifest.py</span></code> / <code class="docutils literal notranslate"><span class="pre">render_sef_animation_shard.py</span></code></p></td>
 <td><p>Analysis</p></td>
 <td><p>SEF-rainfall animation stages</p></td>
 </tr>
@@ -132,9 +144,17 @@ these for its shard.</p>
 <td><p><code class="docutils literal notranslate"><span class="pre">ingest_ensemble_array</span></code>, <code class="docutils literal notranslate"><span class="pre">merge_ensemble_shards</span></code></p></td>
 <td><p>array + merge</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">submit_all.sh</span></code></p></td>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">submit_transcription_qc.sh</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">transcription_qc_array</span></code>, <code class="docutils literal notranslate"><span class="pre">transcription_qc_merge</span></code></p></td>
+<td><p>array + merge</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">submit_all.sh</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">build_vectors</span></code>, <code class="docutils literal notranslate"><span class="pre">match_array</span></code>, <code class="docutils literal notranslate"><span class="pre">merge_shards</span></code></p></td>
 <td><p>build + array + merge</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">submit_allsheets.sh</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">build_allsheets_vectors</span></code>, <code class="docutils literal notranslate"><span class="pre">match_allsheets_array</span></code>, <code class="docutils literal notranslate"><span class="pre">merge_allsheets_shards</span></code>, <code class="docutils literal notranslate"><span class="pre">finalize_allsheets_metadata</span></code></p></td>
+<td><p>4-stage residual match</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">submit_qc.sh</span></code></p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">qc_array</span></code>, <code class="docutils literal notranslate"><span class="pre">qc_merge</span></code></p></td>
@@ -238,6 +258,7 @@ command line to write a standalone image or self-contained interactive HTML.</p>
 <p class="caption" role="heading"><span class="caption-text">The workflow</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/ingestion.html">Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/transcription-qc.html">Transcription QC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/matching.html">Matching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/quality-control.html">Quality control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../workflow/export.html">Export</a></li>
@@ -248,9 +269,14 @@ command line to write a standalone image or self-contained interactive HTML.</p>
 <li class="toctree-l1"><a class="reference internal" href="slurm.html">SLURM and HPC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Scripts and SLURM jobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Notebook catalog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reproduce.html">How to reproduce and extend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Authors and acknowledgements</a></li>
 </ul>
-
+<h3>Source code</h3>
+<ul>
+  <li><a href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC">GitHub repository</a></li>
+</ul>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -266,7 +292,7 @@ command line to write a standalone image or self-contained interactive HTML.</p>
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
-          <a href="../reproduce.html" title="How to reproduce and extend"
+          <a href="notebooks.html" title="Notebook catalog"
              >next</a></li>
         <li class="right" >
           <a href="architecture.html" title="Architecture"

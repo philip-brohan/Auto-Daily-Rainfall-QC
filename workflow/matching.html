@@ -9,11 +9,11 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
     <script src="../_static/documentation_options.js?v=01f34227"></script>
-    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Quality control" href="quality-control.html" />
-    <link rel="prev" title="Ingestion" href="ingestion.html" /> 
+    <link rel="prev" title="Transcription QC" href="transcription-qc.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
@@ -22,7 +22,7 @@
           <a href="quality-control.html" title="Quality control"
              accesskey="N">next</a></li>
         <li class="right" >
-          <a href="ingestion.html" title="Ingestion"
+          <a href="transcription-qc.html" title="Transcription QC"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">ADRQ</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Matching</a></li> 
@@ -39,16 +39,18 @@
 <p>A daily transcription on its own is just a grid of numbers — we don’t know which
 station or where. This stage fixes that by matching every transcription to a
 Rainfall Rescue station-year and borrowing its location metadata.</p>
-<p>One notebook:</p>
+<p>Two primary notebooks:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/Philip-Brohan-MO/Auto-Daily-Rainfall-QC-MO/blob/main/notebooks/match_metadata.ipynb">match_metadata.ipynb</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/match_metadata_runbook.ipynb">match_metadata_runbook.ipynb</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/match_metadata_allsheets.ipynb">match_metadata_allsheets.ipynb</a></p></li>
 </ul>
+<p>Supplementary matching notebooks (diagnostics and experimentation) are listed in
+the <a class="reference internal" href="../reference/notebooks.html"><span class="std std-doc">Notebook catalog</span></a>.</p>
+<p>We do matching in two passes because there are two sets of Rainfall Rescue data to match the transcriptions to. The first pass matches against the RR main output (the DATA) directory. The second pass matches only unmatched transcriptions to the less well quality-controlled data in the RR ALLSHEETS directory. The process is the same in the two cases, they just match against different data.</p>
 <section id="the-matching-idea">
 <h2>The matching idea<a class="headerlink" href="#the-matching-idea" title="Link to this heading">¶</a></h2>
-<p>Both datasets describe the same physical stations, so their <strong>monthly totals
-should agree</strong>. Rainfall Rescue stores the monthly totals directly; for the daily
-transcriptions we sum the consensus daily values into monthly totals. Matching
-then compares these month-by-month:</p>
+<p>Both the Rainfall Rescue monthly data and the transcribed daily data datasets come from the same physical stations, so their <strong>monthly totals
+should agree</strong>. Matching compares these month-by-month:</p>
 <ul class="simple">
 <li><p><strong>RR vectors</strong> — station-year monthly profiles from the monthly data.</p></li>
 <li><p><strong>Ensemble vectors</strong> — monthly values from all five ensemble members.</p></li>
@@ -58,6 +60,10 @@ ensemble member value (both rounded to two decimal places).</p></li>
 </ul>
 <p>Cosine and adjusted scores are also stored, for diagnostics and comparability
 with earlier versions.</p>
+<p>Exact matching requires 9+ out of 12 months where the monthly averages from the daily sheets, and the monthly averages from Rainfall Rescue, are the same (within a tolerance of 0.01 inches). If there is a match, all 12 months should be the same, but we should allow for a few mistakes from imperfect transcriptions. Inspection shows that it is very rare for non-matching stations to have more than 4 months agree (that is - if we compare the monthly values from RR for a particular station and year, to <em>all</em> the other stations and years, very rarely will more than 4 months match even in the best case agreement) so a 9-11 month match is almost certain to be a full 12 month match, contaminated by a few transcription errors. 86% of the transcribed daily sheets end up with a match in the RR data, and so can be geolocated precisely.</p>
+</section>
+<section id="primary-matching-on-rr-data">
+<h2>Primary matching on RR DATA<a class="headerlink" href="#primary-matching-on-rr-data" title="Link to this heading">¶</a></h2>
 </section>
 <section id="full-scale-matching-on-slurm">
 <h2>Full-scale matching on SLURM<a class="headerlink" href="#full-scale-matching-on-slurm" title="Link to this heading">¶</a></h2>
@@ -102,6 +108,20 @@ parameters have changed:</p>
 <p>Shard count, matching parameters, and the Parquet paths are configured in
 <code class="docutils literal notranslate"><span class="pre">scripts/slurm/config.sh</span></code>.</p>
 </section>
+<section id="residual-matching-on-rr-allsheets">
+<h2>Residual matching on RR ALLSHEETS<a class="headerlink" href="#residual-matching-on-rr-allsheets" title="Link to this heading">¶</a></h2>
+<p>After the primary run, a subset of files can remain unmatched. The residual
+workflow compares those records against Rainfall Rescue ALLSHEETS station-year
+vectors and writes a second matching session for recovery of additional exact
+matches.</p>
+<p>Run the residual pipeline with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>scripts/slurm/submit_allsheets.sh
+</pre></div>
+</div>
+<p>This pipeline has four steps (build vectors, match shards, merge shards,
+finalize metadata) and is intentionally separate so it can be rerun
+independently of the main RR-DATA match.</p>
+</section>
 <section id="assigning-the-metadata">
 <h2>Assigning the metadata<a class="headerlink" href="#assigning-the-metadata" title="Link to this heading">¶</a></h2>
 <p>With the matches in hand, each ensemble record is enriched with station metadata.
@@ -117,6 +137,8 @@ if all three agree on it; a <strong>position</strong> only if all three lie with
 each other (then the centroid is used). Location name and elevation stay null.</p></li>
 <li><p><strong>Unmatched</strong> — all metadata stays null.</p></li>
 </ul>
+<p>For SEF export, only records with trustworthy coordinates are emitted. Exact
+matches from both the primary RR-DATA and residual ALLSHEETS passes can qualify.</p>
 </section>
 <section id="diagnostics">
 <h2>Diagnostics<a class="headerlink" href="#diagnostics" title="Link to this heading">¶</a></h2>
@@ -142,6 +164,7 @@ the same code as <code class="docutils literal notranslate"><span class="pre">pl
 station-year — over 9,000 for this day in 1931.</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
+<p>One thing that is clear from the matching is that the Daily Rainfall Records contain <em>many</em> duplicates. The most common cause for duplicated is one sheet that has been photographed twice (deliberately - both with and without the attached note stapled to the top of many of them). But there are also many station years in the record twice (2 different pages with the same data). We don’t deduplicate the data at this point - everything is kept for matching and QC - but only one copy of any duplicated observation is exported for use.</p>
 <p>Next: <a class="reference internal" href="quality-control.html"><span class="std std-doc">Quality control</span></a>.</p>
 </section>
 </section>
@@ -165,6 +188,7 @@ station-year — over 9,000 for this day in 1931.</span><a class="headerlink" hr
 <p class="caption" role="heading"><span class="caption-text">The workflow</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ingestion.html">Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transcription-qc.html">Transcription QC</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Matching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quality-control.html">Quality control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="export.html">Export</a></li>
@@ -175,9 +199,14 @@ station-year — over 9,000 for this day in 1931.</span><a class="headerlink" hr
 <li class="toctree-l1"><a class="reference internal" href="../reference/slurm.html">SLURM and HPC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/scripts.html">Scripts and SLURM jobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/notebooks.html">Notebook catalog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reproduce.html">How to reproduce and extend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Authors and acknowledgements</a></li>
 </ul>
-
+<h3>Source code</h3>
+<ul>
+  <li><a href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC">GitHub repository</a></li>
+</ul>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -196,7 +225,7 @@ station-year — over 9,000 for this day in 1931.</span><a class="headerlink" hr
           <a href="quality-control.html" title="Quality control"
              >next</a></li>
         <li class="right" >
-          <a href="ingestion.html" title="Ingestion"
+          <a href="transcription-qc.html" title="Transcription QC"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">ADRQ</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Matching</a></li> 

@@ -9,8 +9,8 @@
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
     <script src="../_static/documentation_options.js?v=01f34227"></script>
-    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Analysis" href="analysis.html" />
     <link rel="prev" title="Quality control" href="quality-control.html" /> 
@@ -42,13 +42,49 @@ are shared in a standard form. This stage writes them out in the
 the community standard for rescued climate data.</p>
 <p>One notebook:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/Philip-Brohan-MO/Auto-Daily-Rainfall-QC-MO/blob/main/notebooks/export_sef.ipynb">export_sef.ipynb</a></p></li>
+<li><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/export_sef.ipynb">export_sef.ipynb</a></p></li>
 </ul>
 <section id="what-sef-is">
 <h2>What SEF is<a class="headerlink" href="#what-sef-is" title="Link to this heading">¶</a></h2>
 <p>SEF is a simple tab-separated text format where <strong>one file holds one variable
 from one station</strong>. Here each file is a single <em>station-year</em> of daily rainfall:
 twelve header lines of metadata, a column header, then one line per observed day.</p>
+<section id="example-sef-file">
+<h3>Example SEF file<a class="headerlink" href="#example-sef-file" title="Link to this heading">¶</a></h3>
+<p>To keep this page readable, only the first few lines are shown inline.</p>
+<p><a class="reference download internal" download="" href="../_downloads/9a00f12037cda6c213562a8f476e9963/DRain_1911-1920_RainNos_Kent_F-P-210.tsv"><span class="xref download myst">View the full example file (385 lines)</span></a></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>SEF	1.0.0
+ID	DRain_1911-1920_RainNos_Kent_F-P-210
+Name	WOODCHURCH-HENGHERST
+Lat	51.0937
+Lon	0.7862
+Alt	46.3
+Source	UK Daily Rainfall Registers
+Link	https://brohan.org/Auto-Daily-Rainfall-QC/
+Vbl	rr
+Stat	sum
+Units	mm
+Meta	orig.units=in|match.type=exact|qc.session=1|n.sources=2|sources=DRain_1911-1920_RainNos_Kent_F-P-210,DRain_1911-1920_RainNos_Kent_F-P_B026-6
+Year	Month	Day	Hour	Minute	Period	Value	Meta
+1919	1	1	9	0	1day	3.6	qc1=fail|qc2=pass|source=DRain_1911-1920_RainNos_Kent_F-P-210
+1919	1	2	9	0	1day	4.1	qc1=fail|qc2=pass|source=DRain_1911-1920_RainNos_Kent_F-P-210
+1919	1	3	9	0	1day	6.6	qc1=fail|qc2=pass|source=DRain_1911-1920_RainNos_Kent_F-P-210
+1919	1	4	9	0	1day	6.6	qc1=fail|qc2=pass|source=DRain_1911-1920_RainNos_Kent_F-P-210
+1919	1	5	9	0	1day	1.3	qc1=fail|qc2=pass|source=DRain_1911-1920_RainNos_Kent_F-P-210
+1919	1	6	9	0	1day	3.0	qc1=fail|qc2=pass|source=DRain_1911-1920_RainNos_Kent_F-P-210
+1919	1	7	9	0	1day	1.0	qc1=fail|qc2=pass|source=DRain_1911-1920_RainNos_Kent_F-P-210
+</pre></div>
+</div>
+</section>
+</section>
+<section id="only-exact-coordinate-matches-are-exported">
+<h2>Only exact-coordinate matches are exported<a class="headerlink" href="#only-exact-coordinate-matches-are-exported" title="Link to this heading">¶</a></h2>
+<p>Only station-years with an exact-coordinate metadata match are written to SEF.
+That includes exact matches from the primary RR-DATA run and exact matches
+recovered by the residual RR ALLSHEETS run. Approximate matches (a centroid
+position inferred from the top-ranked candidates but no confirmed name) are
+<strong>not</strong> trustworthy enough to ship and are dropped entirely; they never reach a
+SEF file.</p>
 </section>
 <section id="merging-the-ensemble-s-duplicates">
 <h2>Merging the ensemble’s duplicates<a class="headerlink" href="#merging-the-ensemble-s-duplicates" title="Link to this heading">¶</a></h2>
@@ -58,8 +94,7 @@ merges these — exact matches sharing a location and year — into <strong>one 
 per real station-year</strong>, written to <code class="docutils literal notranslate"><span class="pre">&lt;output_root&gt;/tsv/&lt;year&gt;/&lt;ID&gt;.tsv</span></code>.</p>
 <p>For every day the value is taken from the duplicate with the <strong>best QC verdict</strong>,
 using this precedence so no day is dropped:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>qc1=pass  &gt;  qc1=fail &amp; qc2=pass  &gt;  qc1=review
-          &gt;  qc1=fail &amp; qc2=indeterminate  &gt;  the rest
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>qc1=pass  &gt;  qc1=fail &amp; qc2=pass  &gt;  qc1=fail &amp; qc2=indeterminate  &gt;  the rest
 </pre></div>
 </div>
 <p>Each observation is the consensus daily total (the member median), <strong>converted
@@ -86,6 +121,10 @@ year range, and the SEF metadata fields (<code class="docutils literal notransla
 <code class="docutils literal notranslate"><span class="pre">scripts/slurm/config.sh</span></code>. The prerequisites are the daily-consensus table and
 the assigned ensemble metadata; the QC tables are joined when present. Files land
 in <code class="docutils literal notranslate"><span class="pre">$PDIR/sef_export/tsv/&lt;year&gt;/&lt;ID&gt;.tsv</span></code> with per-shard manifests alongside.</p>
+</section>
+<section id="sharing-the-results">
+<h2>Sharing the results<a class="headerlink" href="#sharing-the-results" title="Link to this heading">¶</a></h2>
+<p>The exported SEF files are available <a class="reference external" href="https://doi.org/10.5281/zenodo.21905160">from zenodo</a> - 201,149 SEF files, each containing 1 station-year of data. 73,469,432 daily rainfall observations from 13,540 distinct weather stations.</p>
 <p>Next: <a class="reference internal" href="analysis.html"><span class="std std-doc">Analysis</span></a>.</p>
 </section>
 </section>
@@ -109,6 +148,7 @@ in <code class="docutils literal notranslate"><span class="pre">$PDIR/sef_export
 <p class="caption" role="heading"><span class="caption-text">The workflow</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ingestion.html">Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="transcription-qc.html">Transcription QC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="matching.html">Matching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quality-control.html">Quality control</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Export</a></li>
@@ -119,9 +159,14 @@ in <code class="docutils literal notranslate"><span class="pre">$PDIR/sef_export
 <li class="toctree-l1"><a class="reference internal" href="../reference/slurm.html">SLURM and HPC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reference/scripts.html">Scripts and SLURM jobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/notebooks.html">Notebook catalog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reproduce.html">How to reproduce and extend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Authors and acknowledgements</a></li>
 </ul>
-
+<h3>Source code</h3>
+<ul>
+  <li><a href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC">GitHub repository</a></li>
+</ul>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">

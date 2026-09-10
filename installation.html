@@ -9,8 +9,8 @@
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
     <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css?v=34905f61" />
     <script src="_static/documentation_options.js?v=01f34227"></script>
-    <script src="_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Workflow overview" href="workflow/overview.html" />
     <link rel="prev" title="Auto Daily Rainfall QC" href="index.html" /> 
@@ -52,7 +52,7 @@ rendering over the full dataset — runs on the SPICE HPC cluster via
 </section>
 <section id="clone-the-repository">
 <h2>1 — Clone the repository<a class="headerlink" href="#clone-the-repository" title="Link to this heading">¶</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Philip-Brohan-MO/Auto-Daily-Rainfall-QC-MO.git
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC.git
 <span class="nb">cd</span><span class="w"> </span>Auto-Daily-Rainfall-QC-MO
 </pre></div>
 </div>
@@ -78,7 +78,7 @@ kernel.</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> — the repository root, so the project modules import cleanly.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">PDIR</span></code> — the data directory that holds the Parquet datasets and all SLURM shard
-outputs (defaults to <code class="docutils literal notranslate"><span class="pre">/data/scratch/philip.brohan/ADRQ</span></code>).</p></li>
+outputs (Set this to a scratch directory with plenty of disc space).</p></li>
 </ul>
 <p>Edit these in <code class="docutils literal notranslate"><span class="pre">environments/ADRQ.yml</span></code> (or export them in your shell) to match
 your own installation. The SLURM jobs read the same values from
@@ -125,6 +125,7 @@ conda<span class="w"> </span>env<span class="w"> </span>update<span class="w"> <
 <p class="caption" role="heading"><span class="caption-text">The workflow</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="workflow/ingestion.html">Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow/transcription-qc.html">Transcription QC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow/matching.html">Matching</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow/quality-control.html">Quality control</a></li>
 <li class="toctree-l1"><a class="reference internal" href="workflow/export.html">Export</a></li>
@@ -135,9 +136,14 @@ conda<span class="w"> </span>env<span class="w"> </span>update<span class="w"> <
 <li class="toctree-l1"><a class="reference internal" href="reference/slurm.html">SLURM and HPC</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference/architecture.html">Architecture</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference/scripts.html">Scripts and SLURM jobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/notebooks.html">Notebook catalog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reproduce.html">How to reproduce and extend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credits.html">Authors and acknowledgements</a></li>
 </ul>
-
+<h3>Source code</h3>
+<ul>
+  <li><a href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC">GitHub repository</a></li>
+</ul>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
