@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Notebook catalog &#8212; Auto Daily Rainfall QC</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinxdoc.css?v=34905f61" />
+    <script src="../_static/documentation_options.js?v=01f34227"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How to reproduce and extend" href="../reproduce.html" />
+    <link rel="prev" title="Scripts and SLURM jobs" href="scripts.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../reproduce.html" title="How to reproduce and extend"
+             accesskey="N">next</a></li>
+        <li class="right" >
+          <a href="scripts.html" title="Scripts and SLURM jobs"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ADRQ</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Notebook catalog</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="notebook-catalog">
+<h1>Notebook catalog<a class="headerlink" href="#notebook-catalog" title="Link to this heading">¶</a></h1>
+<p>This page is the notebook index for contributors and operators. The workflow
+pages focus on production stages; this catalog also lists diagnostics,
+experimentation, and operations notebooks.</p>
+<section id="primary-workflow-notebooks">
+<h2>Primary workflow notebooks<a class="headerlink" href="#primary-workflow-notebooks" title="Link to this heading">¶</a></h2>
+<p>Run these in the stage order shown in the <a class="reference internal" href="../workflow/overview.html"><span class="std std-doc">workflow overview</span></a>.</p>
+<p>Transcription QC sits between ingestion and matching and is currently
+script-driven (<code class="docutils literal notranslate"><span class="pre">submit_transcription_qc.sh</span></code>) rather than notebook-driven.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Stage</p></th>
+<th class="head"><p>Notebook</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Ingestion</p></td>
+<td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/RR_data_ingest.ipynb">RR_data_ingest.ipynb</a></p></td>
+<td><p>Rainfall Rescue monthly ingest to Parquet</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ingestion</p></td>
+<td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/Daily_transcriptions_ingest.ipynb">Daily_transcriptions_ingest.ipynb</a></p></td>
+<td><p>Ensemble JSON ingest to Parquet</p></td>
+</tr>
+<tr class="row-even"><td><p>Matching</p></td>
+<td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/match_metadata_runbook.ipynb">match_metadata_runbook.ipynb</a></p></td>
+<td><p>Primary RR-DATA matching and metadata assignment</p></td>
+</tr>
+<tr class="row-odd"><td><p>Matching</p></td>
+<td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/match_metadata_allsheets.ipynb">match_metadata_allsheets.ipynb</a></p></td>
+<td><p>Residual ALLSHEETS matching for unmatched files</p></td>
+</tr>
+<tr class="row-even"><td><p>Quality control</p></td>
+<td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/qc_RR_monthly_total.ipynb">qc_RR_monthly_total.ipynb</a></p></td>
+<td><p>QC1 monthly-total consistency check</p></td>
+</tr>
+<tr class="row-odd"><td><p>Quality control</p></td>
+<td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/qc_RR_regional_stats.ipynb">qc_RR_regional_stats.ipynb</a></p></td>
+<td><p>QC2 stage 1 regional-neighbour statistics</p></td>
+</tr>
+<tr class="row-even"><td><p>Quality control</p></td>
+<td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/qc_RR_secondary_ml.ipynb">qc_RR_secondary_ml.ipynb</a></p></td>
+<td><p>QC2 stage 2 secondary ML check</p></td>
+</tr>
+<tr class="row-odd"><td><p>Export</p></td>
+<td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/export_sef.ipynb">export_sef.ipynb</a></p></td>
+<td><p>SEF export generation</p></td>
+</tr>
+<tr class="row-even"><td><p>Analysis</p></td>
+<td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/analyse_sef_output.ipynb">analyse_sef_output.ipynb</a></p></td>
+<td><p>SEF summary analysis</p></td>
+</tr>
+<tr class="row-odd"><td><p>Analysis</p></td>
+<td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/generate_rainfall_animation.ipynb">generate_rainfall_animation.ipynb</a></p></td>
+<td><p>Consensus rainfall animation</p></td>
+</tr>
+<tr class="row-even"><td><p>Analysis</p></td>
+<td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/generate_sef_animation.ipynb">generate_sef_animation.ipynb</a></p></td>
+<td><p>SEF rainfall animation with QC display</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="diagnostics-and-sandbox-notebooks">
+<h2>Diagnostics and sandbox notebooks<a class="headerlink" href="#diagnostics-and-sandbox-notebooks" title="Link to this heading">¶</a></h2>
+<p>Use these for inspection and experimentation, not as the canonical production
+path.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Notebook</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/match_metadata_diagnostics.ipynb">match_metadata_diagnostics.ipynb</a></p></td>
+<td><p>Matching diagnostics and exploratory checks</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/match_metadata_sandbox.ipynb">match_metadata_sandbox.ipynb</a></p></td>
+<td><p>Sandbox for matching experiments</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="operations-notebook">
+<h2>Operations notebook<a class="headerlink" href="#operations-notebook" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Notebook</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/blob/main/notebooks/operations.ipynb">operations.ipynb</a></p></td>
+<td><p>Operator checklist for orchestration, reruns, and tuning</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/ADRQ_logo.png" alt="Logo of Auto Daily Rainfall QC"/>
+            </a></p>
+<h3><a href="../index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/overview.html">Workflow overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The workflow</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/ingestion.html">Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/transcription-qc.html">Transcription QC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/matching.html">Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/quality-control.html">Quality control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/export.html">Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../workflow/analysis.html">Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="slurm.html">SLURM and HPC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scripts.html">Scripts and SLURM jobs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Notebook catalog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reproduce.html">How to reproduce and extend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credits.html">Authors and acknowledgements</a></li>
+</ul>
+<h3>Source code</h3>
+<ul>
+  <li><a href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC">GitHub repository</a></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/reference/notebooks.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../reproduce.html" title="How to reproduce and extend"
+             >next</a></li>
+        <li class="right" >
+          <a href="scripts.html" title="Scripts and SLURM jobs"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">ADRQ</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Notebook catalog</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    </div>
+  </body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Authors and acknowledgements &#8212; Auto Daily Rainfall QC</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d75fae25" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinxdoc.css?v=34905f61" />
+    <script src="_static/documentation_options.js?v=01f34227"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="How to reproduce and extend" href="reproduce.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="reproduce.html" title="How to reproduce and extend"
+             accesskey="P">previous</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">ADRQ</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Authors and acknowledgements</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="authors-and-acknowledgements">
+<h1>Authors and acknowledgements<a class="headerlink" href="#authors-and-acknowledgements" title="Link to this heading">¶</a></h1>
+<p>This documentation and codebase are currently maintained by
+<a class="reference external" href="https://brohan.org/">Philip Brohan</a> (Met Office).</p>
+<p>While the human maintainer is entirely responsible for the project, almost all the work was done by AI: <a class="reference external" href="https://github.com/features/copilot">GitHub Copilot</a> wrote all the code and almost all the documentation. The secondary QC (neighbour checking) method was much influenced by suggestions from <a class="reference external" href="https://chatgpt.com/">ChatGPT</a>.</p>
+<p>If you spot a bug or have a suggestion, please use the issue tracker:
+<a class="reference external" href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC/issues/new">Raise an issue</a>.</p>
+<p>All errors are the responsibility of the maintainer; credit is widely shared.</p>
+<ul class="simple">
+<li><p>This project was created by Philip Brohan (philip.brohan &#64; metoffice.gov.uk). He was funded by the Met Office Hadley Centre Climate Programme funded by BEIS, and by the Met Office Weather and Climate Science for Service Partnership (WCSSP) South Africa as part of the Newton Fund.</p></li>
+<li><p>This project is the quality-control follow-on to
+<a class="reference external" href="https://brohan.org/Auto-Daily-Rainfall/">Auto Daily Rainfall</a>,
+which produced the ensemble daily transcriptions.</p></li>
+<li><p>The station metadata and monthly rainfall records used to georeference daily
+transcriptions come from
+<a class="reference external" href="https://github.com/ed-hawkins/rainfall-rescue">Rainfall Rescue</a>, led by
+<a class="reference external" href="https://climatelabbook.substack.com/p/rainfall-rescue-5-years-on">Ed Hawkins</a>
+and supported by volunteer transcribers. Ed also suggested using Rainfall Rescue monthly averages to geolocate the daily data, and provided help with the use of RR’s outputs.</p></li>
+<li><p>Core analysis and pipeline implementation rely on open-source tools including
+<a class="reference external" href="https://www.python.org/">Python</a>,
+<a class="reference external" href="https://docs.conda.io/en/latest/">Conda</a>,
+<a class="reference external" href="https://duckdb.org/">DuckDB</a>,
+<a class="reference external" href="https://arrow.apache.org/docs/python/">PyArrow</a>,
+<a class="reference external" href="https://xgboost.readthedocs.io/">XGBoost</a>,
+<a class="reference external" href="https://matplotlib.org/">Matplotlib</a>, and
+<a class="reference external" href="https://plotly.com/python/">Plotly</a>.</p></li>
+<li><p>Documentation is built with
+<a class="reference external" href="https://www.sphinx-doc.org/">Sphinx</a> and
+<a class="reference external" href="https://myst-parser.readthedocs.io/">MyST Markdown</a>, and hosted through
+<a class="reference external" href="https://github.com/">GitHub</a> and
+<a class="reference external" href="https://pages.github.com/">GitHub Pages</a>.</p></li>
+</ul>
+<p>Appearance on this page does not imply endorsement by any person or
+organization.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/ADRQ_logo.png" alt="Logo of Auto Daily Rainfall QC"/>
+            </a></p>
+<h3><a href="index.html">Table of Contents</a></h3>
+<p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow/overview.html">Workflow overview</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">The workflow</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="workflow/ingestion.html">Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow/transcription-qc.html">Transcription QC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow/matching.html">Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow/quality-control.html">Quality control</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow/export.html">Export</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workflow/analysis.html">Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="reference/slurm.html">SLURM and HPC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/architecture.html">Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/scripts.html">Scripts and SLURM jobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/notebooks.html">Notebook catalog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reproduce.html">How to reproduce and extend</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Authors and acknowledgements</a></li>
+</ul>
+<h3>Source code</h3>
+<ul>
+  <li><a href="https://github.com/Philip-Brohan/Auto-Daily-Rainfall-QC">GitHub repository</a></li>
+</ul>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/credits.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="reproduce.html" title="How to reproduce and extend"
+             >previous</a></li>
+        <li class="nav-item nav-item-0"><a href="index.html">ADRQ</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Authors and acknowledgements</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    </div>
+  </body>
+</html>
